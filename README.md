@@ -3,15 +3,18 @@
 <h1 align='center'>Anisé, a Discord Bot!</h1>
 can be called as "skuqred^3" since this is what it would be,<br>
 and I think I'm sick of my own name on my own projects.
+<br><br>
+this summer project will be fun...
 
 ## What can Anisé do?
 as of current she can provide information about NIKKE characters.<br>
-this bot also has support of slash commands for a change.
+this bot also has support of slash commands.
 
 ## Why?
 it just helps me with playing NIKKE. nothing else<br>
 some other stuff (like `/nikke image`) are added out of fun
-
+<br><br>
+some examples of Anisé workin:
 <table>
   <tr>
     <td><img align='top' src="https://haxeflixel.is-terrible.com/64E2LvS3l.png" /></td>
@@ -21,9 +24,6 @@ some other stuff (like `/nikke image`) are added out of fun
   	<td><img align='left' src="https://haxeflixel.is-terrible.com/64E745pjo.png" /></td>
   </tr>
 </table>
-          
-
-
 
 ## Made with
 - discord.py

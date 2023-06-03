@@ -102,7 +102,6 @@ class nikke(acd.Group):
     @acd.choices(type=[acd.Choice(name="Full Body", value="0"), acd.Choice(name="Card Bust", value="1"), acd.Choice(name="Head Bust", value="2")])
     async def image(self, itcn: discord.Interaction, character:str, type:acd.Choice[str]):
         data = request_nikke(character)
-        await itcn.response.defer(ephemeral=True, thinking=True)
 
         if data is None:
             embed = util.quick_embed('Uh oh!', 'Huh, looks like an exception occurred. Try again?', 0xff3d33)
@@ -129,6 +128,7 @@ class nikke(acd.Group):
                 embed.set_author(name="Head Bust Image")
 
 
+        await itcn.response.defer(ephemeral=True, thinking=True)
         embed.set_image(url='https://www.prydwen.gg' + nikke[imageType]['localFile']['childImageSharp']['gatsbyImageData']['images']['fallback']['src'])
 
         await asyncio.sleep(4)
