@@ -1,6 +1,6 @@
-<p style='text-align:center;'><img src="https://cdn.discordapp.com/avatars/1114377691257393213/421d8f88511e13f331c975443eb4b79b.png" /></p>
+<p align='center'><img src="https://cdn.discordapp.com/avatars/1114377691257393213/421d8f88511e13f331c975443eb4b79b.png" /></p>
 
-<h1 style='text-align:center;'>Anisé, a Discord Bot!</h1>
+# <p align='center'>Anisé, a Discord Bot!</p>
 can be called as "skuqred^3" since this is what it would be,<br>
 and I think I'm sick of my own name on my own projects.
 
