@@ -12,6 +12,19 @@ this bot also has support of slash commands for a change.
 it just helps me with playing NIKKE. nothing else<br>
 some other stuff (like `/nikke image`) are added out of fun
 
+<table>
+  <tr>
+    <td><img align='top' src="https://haxeflixel.is-terrible.com/64E2LvS3l.png" /></td>
+    <td rowspan='2'><img src="https://haxeflixel.is-terrible.com/64E3BLGf8.png" /></td>
+  </tr>
+  <tr>
+  	<td><img align='left' src="https://haxeflixel.is-terrible.com/64E745pjo.png" /></td>
+  </tr>
+</table>
+          
+
+
+
 ## Made with
 - discord.py
 - <details><summary>my sanity</summary>
