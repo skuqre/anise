@@ -8,6 +8,10 @@ and I think I'm sick of my own name on my own projects.
 as of current she can provide information about NIKKE characters.<br>
 this bot also has support of slash commands for a change.
 
+## Why?
+it just helps me with playing NIKKE. nothing else<br>
+some other stuff (like `/nikke image`) are added out of fun
+
 ## Made with
 - discord.py
 - <details><summary>my sanity</summary>
