@@ -33,13 +33,13 @@ class nikke(acd.Group):
 
     @acd.command(name='info', description='Provide basic NIKKE character information.')
     async def info(self, itcn: discord.Interaction, character:str):
-        data = request_nikke(character)
         await itcn.response.defer(ephemeral=True, thinking=True)
+        data = request_nikke(character)
+        await asyncio.sleep(4)
 
         if data is None:
             embed = util.quick_embed('Uh oh!', 'Huh, looks like an exception occurred. Try again?', 0xff3d33)
             await itcn.followup.send(embed=embed)
-            await asyncio.sleep(4)
             return
 
         nikke = data['result']['data']['currentUnit']['nodes'][0]
@@ -94,55 +94,31 @@ class nikke(acd.Group):
         if not nikke['specialities'] is None:
             embed.add_field(name="Specialities", value='\n'.join(nikke['specialities']), inline=True)
             
-        await asyncio.sleep(4)
         await itcn.followup.send(embed=embed)
 
     @acd.command(name='image', description='Provides NIKKE images. Full body, card bust, head bust.')
     @acd.describe(type="Image type.")
     @acd.choices(type=[acd.Choice(name="Full Body", value="0"), acd.Choice(name="Card Bust", value="1"), acd.Choice(name="Head Bust", value="2")])
     async def image(self, itcn: discord.Interaction, character:str, type:acd.Choice[str]):
-        data = request_nikke(character)
-
-        if data is None:
-            embed = util.quick_embed('Uh oh!', 'Huh, looks like an exception occurred. Try again?', 0xff3d33)
-            await asyncio.sleep(4)
-            await itcn.followup.send(embed=embed)
-            return
-
-        nikke = data['result']['data']['currentUnit']['nodes'][0]
-
-        embed = util.quick_embed('', '')
-        embed.title = nikke['name']
-
-        imageType = 'smallImage'
-
-        match type.value:
-            case "0":
-                imageType = 'fullImage'
-                embed.set_author(name="Full Body Image")
-            case "1":
-                imageType = 'cardImage'
-                embed.set_author(name="Card Bust Image")
-            case "2":
-                imageType = 'smallImage'
-                embed.set_author(name="Head Bust Image")
-
-
         await itcn.response.defer(ephemeral=True, thinking=True)
-        embed.set_image(url='https://www.prydwen.gg' + nikke[imageType]['localFile']['childImageSharp']['gatsbyImageData']['images']['fallback']['src'])
+        
+        # thing that takes time to get
 
         await asyncio.sleep(4)
-        await itcn.followup.send(embed=embed)
+
+        # process thing
+
+        await itcn.followup.send(embed=embed) # send lole
 
     # Probably the longest command yet
     @acd.command(name='skills', description='Provide NIKKE character skill information.')
     async def skills(self, itcn: discord.Interaction, character:str, max_level:bool=False):
-        data = request_nikke(character)
         await itcn.response.defer(ephemeral=True, thinking=True)
+        data = request_nikke(character)
+        await asyncio.sleep(4)
 
         if data is None:
             embed = util.quick_embed('Uh oh!', 'Huh, looks like an exception occurred. Try again?', 0xff3d33)
-            await asyncio.sleep(4)
             await itcn.followup.send(embed=embed)
             return
 
@@ -249,5 +225,4 @@ class nikke(acd.Group):
         burst_embed.add_field(name="Type", value=f"{nikke['skills'][2]['type']}", inline=True)
         burst_embed.add_field(name="Cooldown", value=f"{'None' if nikke['skills'][2]['cooldown'] is None else str(nikke['skills'][2]['cooldown']) + ' seconds'}", inline=True)
 
-        await asyncio.sleep(4)
         await itcn.followup.send(embeds=[embed, normal_embed, skill1_embed, skill2_embed, burst_embed], files=[sight_upload, skill1_upload, skill2_upload, burst_upload])
