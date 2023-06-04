@@ -1,35 +1,17 @@
-import os
-import discord, asyncio
-from discord.ext import commands, tasks
-from cmds.NIKKE import nikke
-from cmds.Extra import extra
-from cmds.Admin import role
+import disnake, os
+from disnake.ext import commands
 from dotenv import load_dotenv
 
 load_dotenv()
 
-# Set up intents
-intents = discord.Intents.default()
-intents.message_content = True
-intents.presences = True
-intents.members = True
+class Anise(commands.InteractionBot):
+    async def on_ready(self):
+        print(f"Locked and loaded. Logged on as {self.user}\n------")
 
-bot = commands.Bot(command_prefix='a!', intents=intents)
-bot.tree.add_command(nikke(bot))
-bot.tree.add_command(role(bot))
+bot = Anise()
 
-@bot.event
-async def on_ready():
-    print("Logged in as", bot.user)
-    print("------------")
-
-    loop.start()
-
-    await bot.add_cog(extra(bot))
-    await bot.tree.sync()
-
-@tasks.loop(seconds=10)
-async def loop():
-    await bot.change_presence(status=discord.Status.idle)
+@bot.slash_command()
+async def ping(inter):
+    await inter.response.send_message(f"Pong! {round(bot.latency * 1000, 1)}ms.")
 
 bot.run(os.environ.get("bot_secret"))
