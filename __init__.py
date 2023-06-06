@@ -1,2 +1,5 @@
 from src.bot import main
-main()
+
+# What
+if __name__ == '__main__':
+    main()

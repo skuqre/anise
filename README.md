@@ -17,16 +17,17 @@ some other stuff (like `/nikke image`) are added out of fun
 some examples of Anisé workin:
 <table>
   <tr>
-    <td><img align='top' src="https://haxeflixel.is-terrible.com/64E2LvS3l.png" /></td>
-    <td rowspan='2'><img src="https://haxeflixel.is-terrible.com/64E3BLGf8.png" /></td>
+    <td><img align='top' src="https://haxeflixel.is-terrible.com/64UPVND3d.png" /></td>
+    <td rowspan='2'><img src="https://haxeflixel.is-terrible.com/64UP2GovE.png" /></td>
   </tr>
   <tr>
-  	<td><img align='left' src="https://haxeflixel.is-terrible.com/64E745pjo.png" /></td>
+  	<td><img align='left' src="https://haxeflixel.is-terrible.com/64UPseI21.png" /></td>
   </tr>
 </table>
 
 ## Made with
-- discord.py
+- disnake
+- discord.py ([see the Old branch!](https://github.com/skuqre/anise/tree/old))
 - <details><summary>my sanity</summary>
   discord.py is just about new to me<br>
   python is something more of a bizarre thing to me as well<br>
