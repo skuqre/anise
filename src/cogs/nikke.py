@@ -20,13 +20,12 @@ class NikkeCommands(cmds.Cog):
     def __init__(self, bot) -> None:
         self.bot: cmds.Bot = bot
 
-    # Request NIKKE data. Low and behold my awesome error-handling skills
+    # Request NIKKE data.
     async def request_nikke(self, character: str):
         try:
             async with aiohttp.ClientSession() as session:
                 data = await session.get(f'https://www.prydwen.gg/page-data/nikke/characters/{util.kebab(character)}/page-data.json')
                 return await data.json()
-
         except:
             return None
 

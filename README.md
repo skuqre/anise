@@ -14,7 +14,7 @@ this bot also has support of slash commands.
 
 ## Why?
 it just helps me with playing NIKKE. nothing else<br>
-some other stuff (like `/nikke image`) are added out of fun
+some other stuff (like `/shedidntsaythat`) are added out of fun
 <br><br>
 some examples of Anisé workin:
 <table>

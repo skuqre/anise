@@ -26,9 +26,59 @@ class ExtraCommands(cmds.Cog):
             "I uhh... spilt more soda than usual. Oops."
         ]
 
+        self.ballyes: list[str] = [
+            "Sure.",
+            "Without a doubt.",
+            "All outcomes are positive.",
+            "All signs point to yes.",
+            "Definitely.",
+            "It is decidedly so.",
+            "Yes."
+        ]
+        self.ballno: list[str] = [
+            "No.",
+            "Absolutely not.",
+            "It's gonna make things worse.",
+            "Don't count on it.",
+            "Sources said no.",
+            "Outcomes are awful.",
+            "It's not good for the future."
+        ]
+        self.ballidk: list[str] = [
+            "Don't know.",
+            "Maybe. Maybe not.",
+            "Can't predict right now.",
+            "Sources are hazy. Try again.",
+            "(Inappropriate language detected. Prediction filtered.)",
+            "Think about it deeply, and try again.",
+            "It is unknown what will occur in the end."
+        ]
+
     @cmds.slash_command(name='shedidntsaythat', description="Let me spout out random stuff!")
-    async def random(self, itcn: disnake.CommandInteraction):
-        await itcn.send(content=Rnd().choice(self.thingsshesays))
+    async def randomsays(self, itcn: disnake.CommandInteraction):
+        await itcn.response.defer(with_message=True)
+        chosen = Rnd().choice(self.thingsshesays)
+        await itcn.send(content=chosen)
+
+    @cmds.slash_command(name='8ball', description="My magic 8 ball! It's a novelty!")
+    async def magic_8ball(self, itcn: disnake.CommandInteraction):
+        await itcn.response.defer(with_message=True)
+
+        rnd = Rnd()
+        rndint = rnd.randint(1, 3)
+
+        match rndint:
+            case 1:
+                await itcn.send(embed=util.quick_embed('🎱 8 Ball', rnd.choice(self.ballyes)))
+            case 2:
+                await itcn.send(embed=util.quick_embed('🎱 8 Ball', rnd.choice(self.ballno)))
+            case 3:
+                await itcn.send(embed=util.quick_embed('🎱 8 Ball', rnd.choice(self.ballidk)))
+
+    
+    @cmds.slash_command(name='ping', description="What's my latency?")
+    async def pong(self, itcn: disnake.CommandInteraction):
+        await itcn.send(embed=util.quick_embed('🏓 Pong!', f'**Bot latency**: {round(self.bot.latency * 1000, 2) }ms'))
 
 
 def setup(bot: cmds.Bot) -> None:
