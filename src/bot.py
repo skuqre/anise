@@ -1,4 +1,5 @@
-import disnake, os
+import disnake
+import os
 from disnake.ext import commands
 from disnake.ext.commands import errors
 from disnake.interactions import ApplicationCommandInteraction
@@ -15,7 +16,11 @@ class Anise(commands.InteractionBot):
 
 
 def main():
-    bot = Anise(reload=IS_DEBUG, status=disnake.Status.idle)
+    intents = disnake.Intents.default()
+    intents.members = True
+    intents.message_content = True
+
+    bot = Anise(reload=IS_DEBUG, status=disnake.Status.idle, intents=intents)
 
     bot.load_extensions(os.path.join(__package__, 'cogs'))
     bot.run(os.getenv("bot_secret"))

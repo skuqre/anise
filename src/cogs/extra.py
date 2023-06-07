@@ -7,7 +7,7 @@ from disnake.ext import commands as cmds
 class ExtraCommands(cmds.Cog):
     def __init__(self, bot) -> None:
         self.bot: cmds.Bot = bot
-        self.somethings: list[str] = [
+        self.thingsshesays: list[str] = [
             "Are you really playing a game if you let it play all by yourself? And the game can also be played with one hand?",
             "I use my hands for two things. One, to play the game, and two, to hold the Bible.",
             "Always fun to see things explode. If you've got a rocket launcher, what else are you supposed to do?",
@@ -20,12 +20,15 @@ class ExtraCommands(cmds.Cog):
             "This is Rapi. What is this all about? Who are you people?",
             "Guns n Roses make the world go round... Think of a better duo if you feel so inclined.",
             "Sometimes, I wonder; why did the manufacturers make us... like this? We could've been plain as all hell, y'know?",
-            "Despite everything, the Commander still gets out alive in our missions. We're doing a good job!"
+            "Despite everything, the Commander still gets out alive in our missions. We're doing a good job!",
+            "Do you know why the Commander has those certain type of magazines...?",
+            "Dissipated a Rapture today. Like, totally made it dematerialize. Nothing was left of it anymore.",
+            "I uhh... spilt more soda than usual. Oops."
         ]
 
     @cmds.slash_command(name='shedidntsaythat', description="Let me spout out random stuff!")
     async def random(self, itcn: disnake.CommandInteraction):
-        await itcn.send(content=Rnd().choice(self.somethings))
+        await itcn.send(content=Rnd().choice(self.thingsshesays))
 
 
 def setup(bot: cmds.Bot) -> None:

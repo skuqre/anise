@@ -4,7 +4,9 @@
 can be called as "skuqred^3" since this is what it would be,<br>
 and I think I'm sick of my own name on my own projects.
 <br><br>
-this summer project will be fun...
+
+<p align='center'><img src="https://haxeflixel.is-terrible.com/64_vvmh8d.png" /></p>
+
 
 ## What can Anisé do?
 as of current she can provide information about NIKKE characters.<br>

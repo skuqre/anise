@@ -1,4 +1,3 @@
-import asyncio
 import json
 import disnake
 import src.util as util
@@ -63,7 +62,7 @@ class NikkeCommands(cmds.Cog):
         if data is None:
             embed = util.quick_embed(
                 'Uh oh!', 'Huh, looks like an exception occurred. Try again?', 0xff3d33)
-            await itcn.send(embed=embed)
+            await itcn.send(embed=embed, ephemeral=only_to_you)
             return
 
         nikke = data['result']['data']['currentUnit']['nodes'][0]
@@ -118,7 +117,7 @@ class NikkeCommands(cmds.Cog):
             embed.add_field(name="Specialities", value='\n'.join(
                 nikke['specialities']), inline=True)
 
-        await itcn.send(embed=embed)
+        await itcn.send(embed=embed, ephemeral=only_to_you)
 
     @nikke.sub_command(name='skills', description='What can this NIKKE do? Character name must be in kebab-case.')
     async def skills(self, itcn: disnake.CommandInteraction, character: str, max_level: bool = False, only_to_you: bool = True):
@@ -128,7 +127,7 @@ class NikkeCommands(cmds.Cog):
         if data is None:
             embed = util.quick_embed(
                 'Uh oh!', 'Huh, looks like an exception occurred. Try again?', 0xff3d33)
-            await itcn.send(embed=embed)
+            await itcn.send(embed=embed, ephemeral=only_to_you)
             return
 
         nikke = data['result']['data']['currentUnit']['nodes'][0]
@@ -252,7 +251,7 @@ class NikkeCommands(cmds.Cog):
         burst_embed.add_field(
             name="Cooldown", value=f"{'None' if nikke['skills'][2]['cooldown'] is None else str(nikke['skills'][2]['cooldown']) + ' seconds'}", inline=True)
 
-        await itcn.send(embeds=[embed, normal_embed, skill1_embed, skill2_embed, burst_embed], files=[sight_upload, skill1_upload, skill2_upload, burst_upload])
+        await itcn.send(embeds=[embed, normal_embed, skill1_embed, skill2_embed, burst_embed], files=[sight_upload, skill1_upload, skill2_upload, burst_upload], ephemeral=only_to_you)
 
     @nikke.sub_command(name='image', description='Display NIKKE character images. 3 types included.')
     async def image(self, itcn: disnake.CommandInteraction, character: str, type: str = cmds.Param(choices=["Head Bust", "Card Bust", "Full Body"], description="Image type to send.")):
