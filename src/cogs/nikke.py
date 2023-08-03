@@ -29,6 +29,14 @@ class NikkeCommands(cmds.Cog):
         except:
             return None
 
+    async def request_advise(self):
+        try:
+            async with aiohttp.ClientSession() as session:
+                data = await session.get(f'https://api.dotgg.gg/nikke/advise')
+                return await data.json()
+        except:
+            return None
+
     @cmds.slash_command(name='nikkepedia')
     async def nikke(self, itcn: disnake.CommandInteraction):
         pass  # This command doesn't do anything, and somehow can't be invoked.
@@ -283,6 +291,58 @@ class NikkeCommands(cmds.Cog):
 
         embed.set_image(url='https://www.prydwen.gg' +
                         nikke[imageType]['localFile']['childImageSharp']['gatsbyImageData']['images']['fallback']['src'])
+
+        await itcn.send(embed=embed)
+
+    @nikke.sub_command(name='advise', description='Advise search. Character is optional.')
+    async def advise(self, itcn: disnake.CommandInteraction, query: str, character: str = None):
+        await itcn.response.defer(with_message=True)
+
+        embed = util.quick_embed('', '')
+        embed.title = "Results"
+        embed.description = "+100 bond answers are marked with a :green_square:.\n+50 bond answers are marked with a :red_square:.\nResults with `Missing` may have their questions/answers include the character's name.\nSome Nikkes may have different names (e.g. Hongreyon for Scarlet) so be wary of your Nikke's lore!\n\n"
+
+        data = await self.request_advise()
+        results = {}
+
+        for item in data:
+            to = 'Missing'
+
+            if item.get('nikke'):
+                to = item['nikke']
+            
+            if results.get(to) is None:
+                results[to] = []
+
+            check = [item['question'], item['goodanswer'], item['badanswer']]
+            for shit in check:
+                if query.lower() in shit.lower():
+                    results[to].append(
+                        [item['question'], item['goodanswer'], item['badanswer']])
+                    break
+
+
+        amount = 0
+        for k, v1 in results.items():
+            if not (character is None):
+                if not (character in k):
+                    continue
+            
+            for v in v1:
+                embed.description += f"""**{k}**: {v[0]}
+                :green_square: `{v[1]}`
+                :red_square: `{v[2]}`
+
+                """
+                amount += 1
+
+        if len(embed.description) > 4096:
+            embed.title = 'Uh oh!'
+            embed.description = 'Your query is too broad. Mind putting more into it?'
+        elif amount == 0:
+            embed.description = 'No results found... Check again!\n\n**Protip**: If the query has a Nikkes name in it, I recommend you to NOT fill the character field for a more broad search.'
+        else:
+            embed.set_footer(text="Data from https://dotgg.gg. Go visit!")
 
         await itcn.send(embed=embed)
 

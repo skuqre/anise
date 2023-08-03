@@ -80,6 +80,25 @@ class ExtraCommands(cmds.Cog):
     async def pong(self, itcn: disnake.CommandInteraction):
         await itcn.send(embed=util.quick_embed('🏓 Pong!', f'**Bot latency**: {round(self.bot.latency * 1000, 2) }ms'))
 
+    # Really just for officiality. 
+    # You can remove this command if you're using Anisé as 
+    # a base for your Discord bot and you want to go public.
+    @cmds.slash_command(name='invite', description='---')
+    async def invite(self, itcn: disnake.CommandInteraction):
+        text = """
+        Anisé is currently an **invite-only** Discord bot.
+        Servers with Anisé in it have express permissions
+        of from the owner of the server, or was just added in
+        by the bot's developer (<@317204000250265600>).
+
+        Though, thank you for expressing your interest
+        for Anisé in your servers!
+
+        \- skuqre#7660
+        """
+
+        await itcn.send(embed=util.quick_embed('Sorry!', text.strip()))
+
 
 def setup(bot: cmds.Bot) -> None:
     bot.add_cog(ExtraCommands(bot))

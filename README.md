@@ -39,6 +39,9 @@ some examples of Anisé workin:
   THIS FUCKING COMPLICATED ‼‼‼‼
   </details>
 - some data from [Prydwen](https://www.prydwen.gg)!
+- some data from [dotgg](https://dotgg.gg)!
+
+please give these sites a visit, they provide valuable info on NIKKE!
 
 ## Plans
 make it a utility bot and add more features<br>
