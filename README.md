@@ -20,10 +20,15 @@ some examples of Anisé workin:
 <table>
   <tr>
     <td><img align='top' src="https://haxeflixel.is-terrible.com/64UPVND3d.png" /></td>
-    <td rowspan='2'><img src="https://haxeflixel.is-terrible.com/64UP2GovE.png" /></td>
+  	<td><img align='left' src="https://haxeflixel.is-terrible.com/64UPseI21.png" /></td>
   </tr>
   <tr>
-  	<td><img align='left' src="https://haxeflixel.is-terrible.com/64UPseI21.png" /></td>
+  <td>
+  <img align='left' src="https://haxeflixel.is-terrible.com/6aFVhNJel.png" />
+  </td>
+  <td>
+  <img src="https://haxeflixel.is-terrible.com/64UP2GovE.png" />
+  </td>
   </tr>
 </table>
 
