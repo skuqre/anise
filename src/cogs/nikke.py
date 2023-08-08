@@ -1,8 +1,10 @@
+import os
 import json
 import disnake
+import aiohttp
 import src.util as util
 from disnake.ext import commands as cmds
-import aiohttp
+from datetime import datetime, timezone
 
 
 def format_skilldesc(desc: str):
@@ -36,6 +38,19 @@ class NikkeCommands(cmds.Cog):
                 return await data.json()
         except:
             return None
+
+    def save_advise(self, data):
+        new_shit = {
+            "data": data,
+            "anise_LastUpdate": datetime.now(timezone.utc).strftime("%m/%d/%Y, %H:%M:%S")
+        }
+
+        to_save = json.dumps(new_shit, indent=4)
+
+        os.makedirs('local', exist_ok=True)
+
+        with open('local/advise.json', mode='w+') as f:
+            f.write(to_save)
 
     @cmds.slash_command(name='nikkepedia')
     async def nikke(self, itcn: disnake.CommandInteraction):
@@ -295,14 +310,24 @@ class NikkeCommands(cmds.Cog):
         await itcn.send(embed=embed)
 
     @nikke.sub_command(name='advise', description='Advise search. Character is optional.')
-    async def advise(self, itcn: disnake.CommandInteraction, query: str, character: str = None):
+    async def advise(self, itcn: disnake.CommandInteraction, query: str, character: str = None, update_cache: bool = False):
         await itcn.response.defer(with_message=True)
 
         embed = util.quick_embed('', '')
         embed.title = "Results"
         embed.description = "+100 bond answers are marked with a :green_square:.\n+50 bond answers are marked with a :red_square:.\nResults with `Missing` may have their questions/answers include the character's name.\nSome Nikkes may have different names (e.g. Hongreyon for Scarlet) so be wary of your Nikke's lore!\n\n"
 
-        data = await self.request_advise()
+        data = None
+        date = None
+
+        if update_cache:
+            data = await self.request_advise()
+            self.save_advise(data=data)
+        else:
+            huh = json.loads(open("../../../local/advise.json", "r").read())
+            data = huh['data']
+            date = huh['anise_LastUpdate']
+
         results = {}
 
         for item in data:
@@ -310,7 +335,7 @@ class NikkeCommands(cmds.Cog):
 
             if item.get('nikke'):
                 to = item['nikke']
-            
+
             if results.get(to) is None:
                 results[to] = []
 
@@ -321,13 +346,12 @@ class NikkeCommands(cmds.Cog):
                         [item['question'], item['goodanswer'], item['badanswer']])
                     break
 
-
         amount = 0
         for k, v1 in results.items():
             if not (character is None):
                 if not (character in k):
                     continue
-            
+
             for v in v1:
                 embed.description += f"""**{k}**: {v[0]}
                 :green_square: `{v[1]}`
@@ -342,7 +366,8 @@ class NikkeCommands(cmds.Cog):
         elif amount == 0:
             embed.description = 'No results found... Check again!\n\n**Protip**: If the query has a Nikkes name in it, I recommend you to NOT fill the character field for a more broad search.'
         else:
-            embed.set_footer(text="Data from https://dotgg.gg. Go visit!")
+            embed.set_footer(
+                text=f"Last updated: {date + ' (UTC)' if not update_cache else 'Just now'} | Data from https://dotgg.gg. Go visit!")
 
         await itcn.send(embed=embed)
 

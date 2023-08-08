@@ -49,7 +49,7 @@ class ExtraCommands(cmds.Cog):
             "Maybe. Maybe not.",
             "Can't predict right now.",
             "Sources are hazy. Try again.",
-            "(Inappropriate language detected. Prediction filtered.)",
+            "(Inappropriate language detected. Message filtered.)",
             "Think about it deeply, and try again.",
             "It is unknown what will occur in the end."
         ]
