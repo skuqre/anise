@@ -1,0 +1,83 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+import Card from '../components/Card.astro';
+---
+
+<Layout title="Anisé">
+    <main>
+        <h1>Attributions</h1>
+        <p class="lower">Anisé uses lots of data from a variety of people. Even the art isn't even hers.</p>
+        <div class="content">
+            <h2>Anis (the character)</h2>
+            <p>
+                Anis from Goddess of Victory: NIKKE<br>
+                Key character art drawn by Xi Xeong<br>
+                © SHIFT UP CORP.<br>
+                © PROXIMA BETA LTD.<br><br>
+    
+                <a href="https://twitter.com/xi_xeong"><i class="fab fa-twitter"></i> Xi Xeong</a>
+            </p>
+        </div>
+        <div class="content">
+            <h2>Prydwen.gg</h2>
+            <p>
+                Anisé uses public data from Prydwen for some functions.<br><br>
+                <a href="https://prydwen.gg/team"><span class="material-symbols-rounded">language</span> Prydwen team</a><br>
+                <a href="https://prydwen.gg/nikke"><span class="material-symbols-rounded">language</span> Prydwen | NIKKE Division</a><br>
+                <a href="https://prydwen.gg"><span class="material-symbols-rounded">language</span> prydwen.gg</a>
+            </p>
+        </div>
+        <div class="content">
+            <h2>DotGG</h2>
+            <p>
+                Anisé uses public data from DotGG for some functions.<br><br>
+
+                <a href="https://nikke.gg"><span class="material-symbols-rounded">language</span> nikke.gg | DotGG's NIKKE database</a><br>
+                <a href="https://dotgg.gg"><span class="material-symbols-rounded">language</span> dotgg.gg</a>
+            </p>
+        </div>
+        <div class="content">
+            <p>
+                Anisé is not affiliated with Level Infinite, SHIFT UP, or Proxima Beta Ltd.<br>
+                Anisé's Source Code is always available on <a href="https://github.com/skuqre/anise">GitHub</a> and will always be free to use for everyone.<br>
+                See the <a href="https://github.com/skuqre/anise/blob/master/LICENSE">LICENSE</a> for more details and exceptions to this statement.<br><br>
+                Some assets (e.g. the "Anis's Cat Pin" logo) are created by skuqre.
+            </p>
+        </div>
+    </main>
+</Layout>
+
+<style>
+    h2 {
+		margin: 0;
+		font-size: 1.25rem;
+	}
+    p {
+		margin-top: 0.5rem;
+		margin-bottom: 0;
+        font-size: 16px;
+	}
+
+    span {
+        position: relative;
+        bottom: -5px;
+    }
+
+    .content {
+        display: flex;
+        padding: 2px;
+        background: radial-gradient(at top right, var(--dark), var(--darker));;
+        background-size: 400%;
+
+        flex-direction:column;
+
+        border-radius: 8px;
+        border: var(--lighter) 1px solid;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+        text-align: left;
+        padding: 16px 16px;
+
+        margin-bottom: 32px;
+    }
+</style>

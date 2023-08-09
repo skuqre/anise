@@ -1,10 +1,19 @@
 ---
+interface Props {
+    icon?: string;
+    text?: string;
+    link?: string;
+    darker?: string;
+    light?: string
+}
 const { icon, text, link, darker, light } = Astro.props;
 ---
 
 <a href={link} target="_blank">
     <div class="main">
-        <p><i class={icon}></i> {text}</p>
+        <p>
+            <i class={icon}></i> {text}
+        </p>
     </div>
 </a>
 

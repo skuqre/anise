@@ -1,11 +1,11 @@
 ---
 interface Props {
-	title: string;
-	body: string;
+	title?: string;
+	content?: string;
     icon?: string;
 }
 
-const { icon, title, body } = Astro.props;
+const { icon, title, content } = Astro.props;
 ---
 
 <li class="link-card">
@@ -14,7 +14,9 @@ const { icon, title, body } = Astro.props;
             <span class="material-symbols-rounded">{icon}</span> {title}
         </h2>
         <p>
-            {body}
+            <slot>
+                {content}
+            </slot>
         </p>
     </div>
 </li>
@@ -25,13 +27,14 @@ const { icon, title, body } = Astro.props;
 		display: flex;
 		padding: 2px;
 		background: radial-gradient(at top right, var(--dark), var(--darker));;
-		background-size: 400%;
 
 		border-radius: 8px;
         border: var(--lighter) 1px solid;
 		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
         text-align: left;
         padding: 16px 16px;
+
+        flex-flow: column;
 
         transition: filter 0.1s ease-in-out;
 	}

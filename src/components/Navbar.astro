@@ -2,10 +2,10 @@
 ---
 
 <div class="navbar">
-  <h1><img src='/anise/images/logo.svg' alt='Logo'/>Anisé</h1>
+  <h1><a class="logo" href="/anise/"><img src='/anise/images/logo.svg' alt='Logo'/>Anisé</a></h1>
   <!-- <a href="">Home</a> -->
   <a href="">Commands</a>
-  <a href="">Attributions</a>
+  <a href="/anise/attributions">Attributions</a>
 </div>
 
 <style>
@@ -17,16 +17,13 @@
     display: flex;
     align-items: center;
 
-    position: fixed;
-    top: 0;
-
     border-radius: 0 0 16px 16px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.8);
 
     z-index: 10;
   }
 
-  .navbar a {
+  .navbar > a {
     display: flexbox;
 
     text-align: center;
@@ -45,20 +42,20 @@
     transition-timing-function: ease-in-out;
   }
 
-  .navbar a:hover,
-  .navbar a:focus {
+  .navbar > a:hover,
+  .navbar > a:focus {
     background-color: #f4d2591f;
     color: white;
     box-shadow: 0 -4px 0 #ffdb5a inset;
+    text-decoration: none;
 
     transition-property: color, background-color, box-shadow;
     transition-duration: 0.1s;
     transition-timing-function: ease-in-out;
   }
 
-  .navbar h1 {
+  .navbar h1 .logo {
     color: white;
-    margin: 0;
     text-align: center;
     display: flex;
     align-items: center;
@@ -69,9 +66,18 @@
     max-width: 200px;
   }
 
-  .navbar h1 img {
+  .navbar h1 .logo:hover {
+    text-decoration: none;
+  }
+
+  .navbar h1 a img {
     /* display: inline-block; */
     max-height: 48px;
 
+  }
+
+  .navbar h1 {
+    margin-top: 0;
+    margin-bottom: 0;
   }
 </style>
