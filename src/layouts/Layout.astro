@@ -1,0 +1,61 @@
+--- 
+import Header from '../components/Header.astro';
+
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description">
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+
+		<script src="https://kit.fontawesome.com/7416320301.js" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
+	</head>
+	<body>
+		<Header />
+		<slot />
+	</body>
+</html>
+<style is:global>
+	@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;1,6..12,400;1,6..12,500;1,6..12,600;1,6..12,700;1,6..12,800;1,6..12,900&display=swap');
+
+	:root {
+		--main-color: #f4d259;
+
+		--lighter: #353535;
+		--light: #303030;
+		--dark: #252525;
+		--darker: #1d1d1d;
+		--darkerer: #151515;
+		--darkest: #101010;
+	}
+	html {
+		font-family: 'Nunito Sans', sans-serif;
+		
+		background: var(--dark);
+		background-image: radial-gradient(var(--darker) 4px, transparent 0);
+		background-size: 64px 64px;
+		background-position: center;
+
+		color: white;
+		text-align: center;
+	}
+	body {
+		margin: 0;
+		padding: 0;
+	}
+	code {
+		font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
+			Bitstream Vera Sans Mono, Courier New, monospace;
+	}
+</style>

@@ -1,0 +1,103 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+import Card from '../components/Card.astro';
+---
+
+<Layout title="Anisé">
+	<div class="header-title">
+		<h1>Anisé</h1>
+		<p>A multipurpose Discord Bot aiming to provide Goddess of Victory: NIKKE help.</p>
+		<div class="buttons">
+			<Button icon="fab fa-github" text="Visit on GitHub" link="https://github.com/skuqre/anise"/>
+		</div>
+	</div>
+
+	<main>
+		<h2>What can she do?</h2>
+		<p class="lower"><i>Not much, actually, I made this site to learn Astro. - skuqre</i></p>
+
+		<ul role="list" class="link-card-grid">
+			<Card
+				icon="info"
+				title="Fast Information"
+				body="Anisé can get you information you need for your NIKKEs. Information from well-known sites like prydwen.gg and dotgg.gg!"
+			/>
+			<Card
+				icon="celebration"
+				title="Fun"
+				body="Features pending, but I may have some stuff later down the line. A Simulation Room Discord Edition perhaps?"
+			/>
+			<Card
+				icon="help"
+				title="I don't know anymore"
+				body="The bot has little to no features but I'm making this site for the sake of experience."
+			/>
+			<Card
+				icon="sentiment_dissatisfied"
+				title="I'm trying my best"
+				body='At least the site looks good. Astro is pretty cool I think. But then again it is "Yet Another JavaScript Framework"'
+			/>
+		</ul>
+		<Card
+			icon="build"
+			title="Curious?"
+			body="You can try to build the bot yourself. It's out there in GitHub. Feel free to fork..."
+		/>
+	</main>
+</Layout>
+
+<style>
+	main {
+		margin: auto;
+		padding: 1rem;
+		width: 800px;
+		max-width: calc(100% - 2rem);
+		color: white;
+		font-size: 20px;
+		line-height: 1.6;
+
+		text-align: center;
+		text-shadow: #000 0 0 8px;
+	}
+
+	.lower {
+		font-size: 16px;
+		margin: 32px;
+	}
+	
+	h1 {
+		font-size: 4rem;
+		font-weight: 700;
+		line-height: 1;
+		text-align: center;
+		margin-top: 0.5em;
+		margin-bottom: 0.5em;
+	}
+
+    .header-title {
+        width: 100%;
+        height: 100%;
+
+        margin: 128px 0 32px;
+        padding-top: 48px;
+        padding-bottom: 48px;
+
+        background-color: rgba(1, 1, 1, 0.3);
+        background-image: url('anis.gif');
+        background-repeat: no-repeat;
+        background-position: 20% 0;
+        background-position-y: 16px;
+
+        text-shadow: #000 0 0 8px;
+    }
+    .buttons {
+        margin-top: 32px;
+    }
+	.link-card-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
+		gap: 20px;
+		padding: 0;
+	}
+</style>

@@ -1,0 +1,45 @@
+---
+const { icon, text, link, darker, light } = Astro.props;
+---
+
+<a href={link} target="_blank">
+    <div class="main">
+        <p><i class={icon}></i> {text}</p>
+    </div>
+</a>
+
+<style define:vars={{ darker, light }}>
+    a {
+        display: inline-block;
+
+        width: max-content;
+        height: max-content;
+
+        margin: 2px;
+
+        transition: filter 0.1s ease-out;
+        text-decoration: none;
+        color: #fff;
+    }
+    a:hover {
+        filter: brightness(120%);
+
+        transition: filter 0.1s ease-out;
+    }
+    p {
+        margin: 0;
+        padding: 16px 24px;
+    }
+    .main {
+        border-radius: 8px;
+        border: 1px white solid;
+        background: radial-gradient(at top right, var(--light), var(--darker));
+
+        width: max-content;
+        height: max-content;
+
+        margin: auto;
+
+        box-shadow: #000 0 0 8px;
+    }
+</style>
