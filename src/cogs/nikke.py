@@ -21,6 +21,19 @@ def format_skilldesc(desc: str):
 class NikkeCommands(cmds.Cog):
     def __init__(self, bot) -> None:
         self.bot: cmds.Bot = bot
+        self.advisechars : list[str] = []
+
+        if os.path.exists("local/advise.json"):
+            adviselist = json.loads(open("local/advise.json", "r").read())
+            for adv in adviselist['data']:
+                if adv.get('nikke') and not (adv.get('nikke') in self.advisechars):
+                    self.advisechars.append(adv['nikke'])
+
+            print("ADVISE CHARACTERS: ", self.advisechars)
+        else:
+            print("!!WARNING!! : No advise cache saved; please run the Advise lookup command atleast once for the autocomplete to function.")
+
+
 
     # Request NIKKE data.
     async def request_nikke(self, character: str):
@@ -324,9 +337,9 @@ class NikkeCommands(cmds.Cog):
             data = await self.request_advise()
             self.save_advise(data=data)
         else:
-            huh = json.loads(open("../../../local/advise.json", "r").read())
-            data = huh['data']
-            date = huh['anise_LastUpdate']
+            huh = json.loads(open("local/advise.json", "r").read())
+            data = huh.get('data')
+            date = huh.get('anise_LastUpdate')
 
         results = {}
 
@@ -370,6 +383,11 @@ class NikkeCommands(cmds.Cog):
                 text=f"Last updated: {date + ' (UTC)' if not update_cache else 'Just now'} | Data from https://dotgg.gg. Go visit!")
 
         await itcn.send(embed=embed)
+
+    @advise.autocomplete("character")
+    def char_autocomplete(self, itcn: disnake.CommandInteraction, string: str):
+        string = string.lower()
+        return [char for char in self.advisechars if string in char.lower()]
 
 
 def setup(bot: cmds.Bot) -> None:
