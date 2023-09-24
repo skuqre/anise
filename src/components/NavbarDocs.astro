@@ -4,13 +4,12 @@
 <div class="navbar">
   <h1><a class="logo" href="/anise/"><img src='/anise/images/logo.svg' alt='Logo'/>Anisé</a></h1>
   <!-- <a href="">Home</a> -->
-  <a href="/anise/docs/welcome">Commands</a>
-  <a href="/anise/attributions">Attributions</a>
+  <p>Documentation</p>
 </div>
 
 <style>
   .navbar {
-    width: 100%;
+    width: 100vw;
     height: fit-content;
     background-color: rgba(21, 21, 21, 0.9);
     margin: 0;
@@ -23,7 +22,7 @@
     backdrop-filter: blur(8px);
   }
 
-  .navbar > a {
+  .navbar > a, p {
     display: flexbox;
 
     text-align: center;
@@ -36,6 +35,7 @@
 
     width: 100%;
     max-width: 150px;
+    margin: 0;
 
     transition-property: color, background-color, box-shadow;
     transition-duration: 0.1s;

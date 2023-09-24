@@ -1,0 +1,76 @@
+---
+---
+
+<div class="sidebarbglol">
+
+</div>
+<div class="sidebar">
+    <div class="sidebar-content">
+        <h2>Home</h2>
+
+        <a href="/anise/docs/welcome"><h3>Welcome page</h3></a>
+        <hr>
+        <h2>Commands</h2>
+        <a href="/anise/docs/nikkepedia"><h3>Nikkepedia</h3></a>
+        <ul>
+            <li><a href="/anise/docs/nikkepedia/what"><code>/nikkepedia what</code></a></li>
+            <li><a href="/anise/docs/nikkepedia/whois"><code>/nikkepedia whois</code></a></li>
+            <li><a href="/anise/docs/nikkepedia/skills"><code>/nikkepedia skills</code></a></li>
+            <li><a href="/anise/docs/nikkepedia/image"><code>/nikkepedia image</code></a></li>
+            <li><a href="/anise/docs/nikkepedia/advise"><code>/nikkepedia advise</code></a></li>
+        </ul>
+        <a href="/anise/docs/fun"><h3>Fun</h3></a>
+        <ul>
+            <li><code>/shedidntsaythat</code></li>
+            <li><code>/8ball</code></li>
+            <li><code>/ping</code></li>
+            <li><code>/invite</code></li>
+            <li><code>/nikkeost</code></li>
+            <li><code>/bondpractice</code></li>
+        </ul>
+    </div>
+</div>
+
+<style>
+    .sidebar {
+        width: 350px;
+        position: fixed;
+        top: 58px;
+
+        background-color: rgba(0, 0, 0, 0.4);
+        height: calc(100% - 58px);
+
+        text-align: left;
+    }
+
+    .sidebar-content {
+        padding: 32px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        max-height: calc(100% - 64px);
+    }
+
+    .sidebar-content::-webkit-scrollbar-track
+    {
+        background-color: rgba(0,0,0,0);
+    }
+
+    .sidebar-content::-webkit-scrollbar
+    {
+        width: 16px;
+        background-color: rgba(0,0,0,0);
+    }
+
+    .sidebar-content::-webkit-scrollbar-thumb
+    {
+        border: 4px solid transparent;
+        border-radius: 16px;
+        background-color: var(--lighter);
+        background-clip: content-box;
+    }
+
+    ul > li {
+        padding-top: 4px;
+        padding-bottom: 4px;
+    }
+</style>
