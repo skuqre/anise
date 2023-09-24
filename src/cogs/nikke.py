@@ -23,13 +23,20 @@ class NikkeCommands(cmds.Cog):
         self.bot: cmds.Bot = bot
         self.advisechars : list[str] = []
 
+        maxlen = 0
         if os.path.exists("local/advise.json"):
             adviselist = json.loads(open("local/advise.json", "r").read())
             for adv in adviselist['data']:
                 if adv.get('nikke') and not (adv.get('nikke') in self.advisechars):
                     self.advisechars.append(adv['nikke'])
 
+                if len(adv.get('goodanswer')) > maxlen:
+                    maxlen = len(adv.get('goodanswer'))
+                if len(adv.get('badanswer')) > maxlen:
+                    maxlen = len(adv.get('badanswer'))
+
             print("ADVISE CHARACTERS: ", self.advisechars)
+            print("LONGEST BOND ANSWER LENGTH: ", maxlen)
         else:
             print("!!WARNING!! : No advise cache saved; please run the Advise lookup command atleast once for the autocomplete to function.")
 
@@ -122,11 +129,11 @@ class NikkeCommands(cmds.Cog):
 
         # Combat
         combat = f"""
-        **Rarity**: {nikke['rarity']}
+        **Rarity**: {util.emotes[nikke['rarity'].lower()]}
         **Class**: {nikke['class']}
         **Weapon**: {nikke['weapon']}
         **Element**: {nikke['element']}
-        **Burst Type**: `{int(nikke['burstType']) * 'I'}`
+        **Burst Type**: {util.emotes['burst' + nikke['burstType']]}
         """
         embed.add_field(name="Combat", value=combat.strip(), inline=True)
 
@@ -381,6 +388,8 @@ class NikkeCommands(cmds.Cog):
         else:
             embed.set_footer(
                 text=f"Last updated: {date + ' (UTC)' if not update_cache else 'Just now'} | Data from https://dotgg.gg. Go visit!")
+            
+        embed.description = embed.description.replace("{AccountData.NickName}", "`[YOUR-NAME]`")
 
         await itcn.send(embed=embed)
 

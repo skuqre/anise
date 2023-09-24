@@ -1,0 +1,26 @@
+[
+    {
+        "nikke": "anise",
+        "question": "You done your daily duties yet?",
+        "goodanswer": "Yes.",
+        "badanswer": "No.",
+        "goodresponse": "Woo! At least we got a responsible commander here.",
+        "badresponse": "You probably should get to it then..."
+    },
+    {
+        "nikke": "anise",
+        "question": "What's my favorite fried chicken place?",
+        "goodanswer": "Mustang Fried Chicken",
+        "badanswer": "Tetra Fried Chicken",
+        "goodresponse": "It's either you've looked at me half the time you're in the lobby, or you really love fried chicken.",
+        "badresponse": "Common misconception."
+    },
+    {
+        "nikke": "anise",
+        "question": "I wanted to ask; have I been doing a good job?",
+        "goodanswer": "Probably.",
+        "badanswer": "Probably?",
+        "goodresponse": "What's that supposed to mean...",
+        "badresponse": "What do you mean by that??"
+    }
+]
