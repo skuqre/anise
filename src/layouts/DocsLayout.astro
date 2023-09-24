@@ -1,6 +1,5 @@
 --- 
-import Footer from '../components/Footer.astro';
-import NavbarDocs from '../components/NavbarDocs.astro';
+import Header from '../components/Header.astro';
 import SidebarDocs from '../components/SidebarDocs.astro';
 
 interface Props {
@@ -24,11 +23,7 @@ const { title } = Astro.props;
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
 	</head>
 	<body>
-		<header>
-            <nav>
-                <NavbarDocs />
-            </nav>
-        </header>
+		<Header />
         <SidebarDocs />
 		<div class="main-content">
 			<div class="mkdown-content">
@@ -185,4 +180,8 @@ const { title } = Astro.props;
 			width: 80%;
     	}
     }
+
+	.navbar {
+		width: 100vw;
+	}
 </style>
