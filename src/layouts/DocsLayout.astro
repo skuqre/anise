@@ -2,11 +2,7 @@
 import Header from '../components/Header.astro';
 import SidebarDocs from '../components/SidebarDocs.astro';
 
-interface Props {
-	title: string;
-}
-
-const { title } = Astro.props;
+const {frontmatter} = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -17,7 +13,7 @@ const { title } = Astro.props;
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/anise/images/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
+		<title>{frontmatter.title} - Anisé Docs</title>
 
 		<script src="https://kit.fontawesome.com/7416320301.js" crossorigin="anonymous"></script>
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
@@ -65,8 +61,6 @@ const { title } = Astro.props;
 		min-height: 100vh;
 	}
 	code {
-		font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-			Bitstream Vera Sans Mono, Courier New, monospace;
 		font-size: 14px;
 		background-color: rgba(0, 0, 0, 0.4);
 		padding: 4px;
@@ -120,8 +114,12 @@ const { title } = Astro.props;
 		padding-right: 16px;
 	}
 
-	.mkdown-content > h1 {
+	.mkdown-content > h1, .mkdown-content > h2 {
 		border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+	}
+
+	.mkdown-content > p > img {
+		max-width: 100%;
 	}
 
 	hr {
@@ -183,5 +181,17 @@ const { title } = Astro.props;
 
 	.navbar {
 		width: 100vw;
+	}
+
+	div.codeblock > pre > code {
+		background-color: rgba(0,0,0,0);
+		margin: 0;
+		padding: 0;
+	}
+
+	div.codeblock > pre {
+		background-color: rgba(0, 0, 0, 0.4);
+		padding: 16px;
+		border-radius: 6px;
 	}
 </style>

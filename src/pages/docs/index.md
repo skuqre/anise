@@ -1,5 +1,6 @@
 ---
 layout: ../../layouts/DocsLayout.astro
+title: Welcome!
 ---
 
 # Welcome!
@@ -12,4 +13,4 @@ I tried to thoroughly document how the commands work in the code and how would o
 
 Anisé can currently congregate data from [prydwen.gg](https://prydwen.gg) and [nikke.gg](https://nikke.gg). This whole documentation just explains the commands as they can be needlessly complicated.
 
-Not sure where to begin? Anisé's main features are in the Nikkepedia category. The sidebar to the right displays all of the commands.
+Not sure where to begin? Anisé's main features are in the Nikkepedia category. The sidebar to the left displays all of the commands.

@@ -1,5 +1,6 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
+title: Nikkepedia
 ---
 
 # Nikkepedia
@@ -23,4 +24,4 @@ Most commands are in the form `/nikkepedia <command>` for ease of access.
 Commands with an `[only-to-you]` argument has this argument always default to **True** to prevent chat clutter; set it to **False** if you want to share the message with others.
 
 
-If you'd like a more "in-depth" description for these commands (as these are summarizations) you can head to the right, they have their own unique page for descriptions.
+If you'd like a more "in-depth" description for these commands (as these are summarizations) you can head to the left, they have their own unique page for descriptions.

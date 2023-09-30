@@ -1,5 +1,6 @@
 ---
 layout: ../../layouts/DocsLayout.astro
+title: Fun
 ---
 
 # Fun
