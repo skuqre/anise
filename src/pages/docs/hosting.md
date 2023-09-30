@@ -11,7 +11,7 @@ Below includes a nasty, hasty-pasted, small tutorial on how to host your own Ani
 ## Create a Bot
 Create an application on [discord.com/developers](https://discord.com/developers). Click the big blurple button that says "New Application", which should just be on the top-right of the page.
 
-![](../images/docs/discord_newapplication.png)
+![](../../images/docs/discord_newapplication.png)
 
 Put in the name of your choice, and head to the Bot section of your application's page.
 
