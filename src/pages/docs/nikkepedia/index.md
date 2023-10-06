@@ -9,10 +9,6 @@ A bunch of commands that interact with external databases.
 
 Most commands are in the form `/nikkepedia <command>` for ease of access.
 
-> Arguments: <br>
-> `<required>`, `[optional]`<br>
-> Do NOT literally type out `<`, `>`, `[`, or `]`.
-
 | Subcommand | Usage Example | Description |
 | --- | --- | --- |
 | [what](/anise/docs/nikkepedia/what) | `/nikkepedia what` | Returns a small description of Goddess of Victory: NIKKE from the eyes of Anisé. |
