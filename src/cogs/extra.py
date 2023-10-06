@@ -16,7 +16,6 @@ class ExtraCommands(cmds.Cog):
             "Rapture this.. rapture that... why don't you (Inappropriate language detected. Rest of message has been filtered out.)",
             "Firepower! What do you mean I don't say that? I'm definitely Anis!",
             "This is Rapi. What is this all about? Who are you people?",
-            "Sometimes, I wonder; why did the manufacturers make us... like this? We could've been plain as all hell, y'know?",
             "Despite everything, the Commander still gets out alive in our missions. We're doing a good job!",
             "Do you know why the Commander has those certain type of magazines...?",
             "Dissipated a Rapture today. Like, totally made it dematerialize. Nothing was left of it anymore.",
@@ -118,13 +117,20 @@ class ExtraCommands(cmds.Cog):
         embed = util.quick_embed("🎶 Random OST", "")
         embed.description = f"""
         ### {pick['name']}
-        Link: *{pick['link']}*
+        {pick['link']}
 
-        {'*' + pick['comment'] + '*' if len(pick['comment']) > 0 else ""}
+        {'_' + pick['comment'] + '_' if len(pick['comment']) > 0 else ""}
         """.strip()
 
         vidid = pick['link'].removeprefix('https://youtu.be/').strip()
+
+        noembed_data = None
+        async with aiohttp.ClientSession() as session:
+            data = await session.get(f'https://noembed.com/embed?url={pick["link"]}')
+            noembed_data = await data.json(content_type=None)
+
         embed.set_image(url=f'https://img.youtube.com/vi/{vidid}/maxresdefault.jpg')
+        embed.set_footer(text=f"Video uploaded by {noembed_data['author_name']}. Click the link to get to the video.")
 
         await itcn.send(embed=embed, components=[])
 
@@ -202,6 +208,25 @@ class ExtraCommands(cmds.Cog):
         """
 
         await itcn.send(embed=util.quick_embed('Sorry!', text.strip()))
+
+    @cmds.slash_command(name='cat', description='Random cat for these trying times.')
+    async def cat(self, itcn: disnake.CommandInteraction):
+        await itcn.response.defer(with_message=True)
+        try:
+            cat = None
+            async with aiohttp.ClientSession() as session:
+                data = await session.get(f'https://cataas.com/cat?json=true')
+                cat = await data.json()
+
+            catemoji = Rnd().choice([*'🐱😸😺😻😽😼😾😹'])
+
+            embed = util.quick_embed(catemoji + ' Random Cat', '')
+            embed.set_image(url=f'https://cataas.com{cat["url"]}')
+            embed.set_footer(text="Cats provided by https://cataas.com")
+
+            await itcn.send(embed=embed)
+        except:
+            await itcn.send(embed=util.quick_embed('Uh oh!', 'Huh, an unknown error occured. Try again later?'))
 
     @cmds.Cog.listener()
     async def on_button_click(self, itcn: disnake.MessageInteraction):
