@@ -7,10 +7,6 @@ title: Fun
 
 Random commands.
 
-> Arguments: <br>
-> `<required>`, `[optional]`<br>
-> Do NOT literally type out `<`, `>`, `[`, or `]`.
-
 | Subcommand | Usage Example | Description |
 | --- | --- | --- |
 | shedidntsaythat | `/shedidntsaythat` | Anisé says random things. Also used for buffering when Anisé does not respond to other commands. |
