@@ -2,7 +2,9 @@ import os
 import json
 import disnake
 import aiohttp
+import requests
 import src.util as util
+from thefuzz import process
 from disnake.ext import commands as cmds
 from datetime import datetime, timezone
 
@@ -22,31 +24,22 @@ class NikkeCommands(cmds.Cog):
     def __init__(self, bot) -> None:
         self.bot: cmds.Bot = bot
         self.advisechars : list[str] = []
-
-        maxlen = 0
-        if os.path.exists("local/advise.json"):
-            adviselist = json.loads(open("local/advise.json", "r").read())
-            for adv in adviselist['data']:
-                if adv.get('nikke') and not (adv.get('nikke') in self.advisechars):
-                    self.advisechars.append(adv['nikke'])
-
-                if len(adv.get('goodanswer')) > maxlen:
-                    maxlen = len(adv.get('goodanswer'))
-                if len(adv.get('badanswer')) > maxlen:
-                    maxlen = len(adv.get('badanswer'))
-
-            print("ADVISE CHARACTERS: ", self.advisechars)
-            print("LONGEST BOND ANSWER LENGTH: ", maxlen)
-        else:
-            print("!!WARNING!! : No advise cache saved; please run the Advise lookup command atleast once for the autocomplete to function.")
-
-
+        self.charslugs : list[str] = {
+            "prydwen": [],
+            "nikkegg": []
+        }
+        self.init_charslugs();
+        self.list_advisechars()
 
     # Request NIKKE data.
-    async def request_nikke(self, character: str):
+    async def request_nikke(self, character: str, nikke_gg: bool = False):
         try:
             async with aiohttp.ClientSession() as session:
-                data = await session.get(f'https://www.prydwen.gg/page-data/nikke/characters/{util.kebab(character)}/page-data.json')
+                data = None
+                if not nikke_gg:
+                    data = await session.get(f'https://www.prydwen.gg/page-data/nikke/characters/{util.kebab(character)}/page-data.json')
+                else:
+                    data = await session.get(f'https://api.dotgg.gg/nikke/character/{util.kebab(character)}')
                 return await data.json()
         except:
             return None
@@ -58,6 +51,21 @@ class NikkeCommands(cmds.Cog):
                 return await data.json()
         except:
             return None
+        
+    def list_advisechars(self):
+        maxlen = 0
+        if os.path.exists("local/advise.json"):
+            adviselist = json.loads(open("local/advise.json", "r").read())
+            for adv in adviselist['data']:
+                if adv.get('nikke') and not (adv.get('nikke') in self.advisechars):
+                    self.advisechars.append(adv['nikke'])
+
+                if len(adv.get('goodanswer')) > maxlen:
+                    maxlen = len(adv.get('goodanswer'))
+                if len(adv.get('badanswer')) > maxlen:
+                    maxlen = len(adv.get('badanswer'))
+        else:
+            print("!!WARNING!! : No advise cache saved; please run the Advise lookup command atleast once for the autocomplete to function.")
 
     def save_advise(self, data):
         new_shit = {
@@ -71,6 +79,20 @@ class NikkeCommands(cmds.Cog):
 
         with open('local/advise.json', mode='w+') as f:
             f.write(to_save)
+
+        self.list_advisechars()
+    
+    def init_charslugs(self):
+        prydwen_r = requests.get("https://www.prydwen.gg/page-data/nikke/characters/page-data.json").json()
+        prydwen_chars = prydwen_r['result']['data']['allCharacters']['nodes']
+
+        for char in prydwen_chars:
+            self.charslugs['prydwen'].append(char['slug'])
+
+        nikkegg_r = requests.get("https://api.dotgg.gg/nikke/characters").json()
+        for char in nikkegg_r:
+            self.charslugs['nikkegg'].append(char['url'])
+
 
     @cmds.slash_command(name='nikkepedia')
     async def nikke(self, itcn: disnake.CommandInteraction):
@@ -102,8 +124,7 @@ class NikkeCommands(cmds.Cog):
         data = await self.request_nikke(character)
 
         if data is None:
-            embed = util.quick_embed(
-                'Uh oh!', 'Huh, looks like an exception occurred. Try again?', 0xff3d33)
+            embed = util.quick_embed('Uh oh!', 'Huh, looks like an exception occurred. Try again?', 0xff3d33)
             await itcn.send(embed=embed, ephemeral=only_to_you)
             return
 
@@ -137,7 +158,8 @@ class NikkeCommands(cmds.Cog):
         """
         embed.add_field(name="Combat", value=combat.strip(), inline=True)
 
-        embed.set_footer(text="Data from https://www.prydwen.gg! Go visit!")
+        prydwen_upload = disnake.File(f'img\dbicons\prydwen.png', filename='prydwen.png')
+        embed.set_footer(text="Data from https://www.prydwen.gg! Go visit!", icon_url='attachment://prydwen.png')
 
         match nikke['rarity']:
             case 'R':
@@ -159,7 +181,7 @@ class NikkeCommands(cmds.Cog):
             embed.add_field(name="Specialities", value='\n'.join(
                 nikke['specialities']), inline=True)
 
-        await itcn.send(embed=embed, ephemeral=only_to_you)
+        await itcn.send(embed=embed, ephemeral=only_to_you, files=[prydwen_upload])
 
     @nikke.sub_command(name='skills', description='What can this NIKKE do? Character name must be in kebab-case.')
     async def skills(self, itcn: disnake.CommandInteraction, character: str, max_level: bool = False, only_to_you: bool = True):
@@ -223,8 +245,7 @@ class NikkeCommands(cmds.Cog):
         normal_embed.add_field(
             name="Reload Time", value=f"{nikke['reloadTime']} seconds", inline=True)
 
-        sight_upload = disnake.File(
-            f'img\sights\{sight}.png', filename='sight.png')
+        sight_upload = disnake.File(f'img\sights\{sight}.png', filename='sight.png')
         normal_embed.set_thumbnail(url='attachment://sight.png')
 
         # SKILL 1
@@ -240,14 +261,11 @@ class NikkeCommands(cmds.Cog):
 
             skill1_embed.description += format_skilldesc(complete) + "\n"
 
-        skill1_upload = disnake.File(
-            f'img\icon_skill1.png', filename='skill1.png')
+        skill1_upload = disnake.File(f'img\icon_skill1.png', filename='skill1.png')
         skill1_embed.set_thumbnail(url='attachment://skill1.png')
 
-        skill1_embed.add_field(
-            name="Type", value=f"{nikke['skills'][0]['type']}", inline=True)
-        skill1_embed.add_field(
-            name="Cooldown", value=f"{'None' if nikke['skills'][0]['cooldown'] is None else str(nikke['skills'][0]['cooldown']) + ' seconds'}", inline=True)
+        skill1_embed.add_field(name="Type", value=f"{nikke['skills'][0]['type']}", inline=True)
+        skill1_embed.add_field(name="Cooldown", value=f"{'None' if nikke['skills'][0]['cooldown'] is None else str(nikke['skills'][0]['cooldown']) + ' seconds'}", inline=True)
 
         # SKILL 2
 
@@ -262,14 +280,11 @@ class NikkeCommands(cmds.Cog):
 
             skill2_embed.description += format_skilldesc(complete) + "\n"
 
-        skill2_upload = disnake.File(
-            f'img\icon_skill2.png', filename='skill2.png')
+        skill2_upload = disnake.File(f'img\icon_skill2.png', filename='skill2.png')
         skill2_embed.set_thumbnail(url='attachment://skill2.png')
 
-        skill2_embed.add_field(
-            name="Type", value=f"{nikke['skills'][1]['type']}", inline=True)
-        skill2_embed.add_field(
-            name="Cooldown", value=f"{'None' if nikke['skills'][1]['cooldown'] is None else str(nikke['skills'][1]['cooldown']) + ' seconds'}", inline=True)
+        skill2_embed.add_field(name="Type", value=f"{nikke['skills'][1]['type']}", inline=True)
+        skill2_embed.add_field(name="Cooldown", value=f"{'None' if nikke['skills'][1]['cooldown'] is None else str(nikke['skills'][1]['cooldown']) + ' seconds'}", inline=True)
 
         # BURST
 
@@ -284,14 +299,11 @@ class NikkeCommands(cmds.Cog):
 
             burst_embed.description += format_skilldesc(complete) + "\n"
 
-        burst_upload = disnake.File(
-            f'img\icon_burst.png', filename='burst.png')
+        burst_upload = disnake.File(f'img\icon_burst.png', filename='burst.png')
         burst_embed.set_thumbnail(url='attachment://burst.png')
 
-        burst_embed.add_field(
-            name="Type", value=f"{nikke['skills'][2]['type']}", inline=True)
-        burst_embed.add_field(
-            name="Cooldown", value=f"{'None' if nikke['skills'][2]['cooldown'] is None else str(nikke['skills'][2]['cooldown']) + ' seconds'}", inline=True)
+        burst_embed.add_field(name="Type", value=f"{nikke['skills'][2]['type']}", inline=True)
+        burst_embed.add_field(name="Cooldown", value=f"{'None' if nikke['skills'][2]['cooldown'] is None else str(nikke['skills'][2]['cooldown']) + ' seconds'}", inline=True)
 
         await itcn.send(embeds=[embed, normal_embed, skill1_embed, skill2_embed, burst_embed], files=[sight_upload, skill1_upload, skill2_upload, burst_upload], ephemeral=only_to_you)
 
@@ -328,6 +340,15 @@ class NikkeCommands(cmds.Cog):
                         nikke[imageType]['localFile']['childImageSharp']['gatsbyImageData']['images']['fallback']['src'])
 
         await itcn.send(embed=embed)
+
+    @info.autocomplete("character")
+    @skills.autocomplete("character")
+    @image.autocomplete("character")
+    def pryd_autocomplete(self, itcn: disnake.CommandInteraction, string: str):
+        string = string.lower()
+        if len(string) <= 0:
+            return []
+        return [char for char in self.charslugs['prydwen'] if string in char.lower()]
 
     @nikke.sub_command(name='advise', description='Advise search. Character is optional.')
     async def advise(self, itcn: disnake.CommandInteraction, query: str, character: str = None, update_cache: bool = False):
@@ -380,23 +401,76 @@ class NikkeCommands(cmds.Cog):
                 """
                 amount += 1
 
+        nikkegg_upload = disnake.File(f'img\dbicons\\nikkegg.png', filename='nikkegg.png')
+        embed.description = embed.description.replace("{AccountData.NickName}", "`[YOUR-NAME]`")
+
         if len(embed.description) > 4096:
             embed.title = 'Uh oh!'
             embed.description = 'Your query is too broad. Mind putting more into it?'
         elif amount == 0:
             embed.description = 'No results found... Check again!\n\n**Protip**: If the query has a Nikkes name in it, I recommend you to NOT fill the character field for a more broad search.'
         else:
-            embed.set_footer(
-                text=f"Last updated: {date + ' (UTC)' if not update_cache else 'Just now'} | Data from https://dotgg.gg. Go visit!")
-            
-        embed.description = embed.description.replace("{AccountData.NickName}", "`[YOUR-NAME]`")
+            embed.set_footer(text=f"Data from https://nikke.gg! Go visit! | Last updated: {date + ' (UTC)' if not update_cache else 'Just now'}", icon_url='attachment://nikkegg.png')
+            await itcn.send(embed=embed, files=[nikkegg_upload])
+            return
 
         await itcn.send(embed=embed)
 
     @advise.autocomplete("character")
-    def char_autocomplete(self, itcn: disnake.CommandInteraction, string: str):
+    def advise_autocomplete(self, itcn: disnake.CommandInteraction, string: str):
         string = string.lower()
+        if len(string) <= 0:
+            return []
         return [char for char in self.advisechars if string in char.lower()]
+    
+    # Worst code ever?
+    # Kill yourself?
+    @nikke.sub_command(name='tierlist', description='Tierlist search for both NIKKE.GG and Prydwen.')
+    async def tierlist(self, itcn: disnake.CommandInteraction, character: str):
+        await itcn.response.defer(with_message=True)
+
+        embed_nikkegg = util.quick_embed('', '')
+        embed_prydwen = util.quick_embed('', '')
+
+        char_nikkegg = process.extractOne(character, self.charslugs['nikkegg'])[0]
+        data_nikkegg = await self.request_nikke(char_nikkegg, nikke_gg=True)
+
+        embed_nikkegg.add_field(name="Combined", value=f"**{util.nikke_gg_ratings(data_nikkegg['tierlist']['Combined'])}** ({data_nikkegg['tierlist']['Combined']})", inline=False)
+        embed_nikkegg.add_field(name="Story", value=f"**{util.nikke_gg_ratings(data_nikkegg['tierlist']['Story'])}** ({data_nikkegg['tierlist']['Story']})", inline=True)
+        embed_nikkegg.add_field(name="Boss", value=f"**{util.nikke_gg_ratings(data_nikkegg['tierlist']['Boss'])}** ({data_nikkegg['tierlist']['Boss']})", inline=True)
+        embed_nikkegg.add_field(name="PvP", value=f"**{util.nikke_gg_ratings(data_nikkegg['tierlist']['PvP'])}** ({data_nikkegg['tierlist']['PvP']})", inline=True)
+
+        char_prydwen = process.extractOne(character, self.charslugs['prydwen'])[0]
+        data_prydwen = await self.request_nikke(char_prydwen)
+        nikke_prydwen = data_prydwen['result']['data']['currentUnit']['nodes'][0]
+
+        embed_prydwen.add_field(name="Story (Early)", value=f"**{util.prydwen_ratings[nikke_prydwen['ratings']['storyEarly']]}** ({(int(nikke_prydwen['ratings']['storyEarly']) / 11 * 10):.1f})", inline=True)
+        embed_prydwen.add_field(name="Story (Mid)", value=f"**{util.prydwen_ratings[nikke_prydwen['ratings']['storyMid']]}** ({(int(nikke_prydwen['ratings']['storyMid']) / 11 * 10):.1f})", inline=True)
+        embed_prydwen.add_field(name="Story (Late)", value=f"**{util.prydwen_ratings[nikke_prydwen['ratings']['storyEnd']]}** ({(int(nikke_prydwen['ratings']['storyEnd']) / 11 * 10):.1f})", inline=True)
+        embed_prydwen.add_field(name="Boss (Solo)", value=f"**{util.prydwen_ratings[nikke_prydwen['ratings']['bossSolo']]}** ({(int(nikke_prydwen['ratings']['bossSolo']) / 11 * 10):.1f})", inline=True)
+        embed_prydwen.add_field(name="Boss (Adds)", value=f"**{util.prydwen_ratings[nikke_prydwen['ratings']['bossAdds']]}** ({(int(nikke_prydwen['ratings']['bossAdds']) / 11 * 10):.1f})", inline=True)
+        embed_prydwen.add_field(name="PvP", value=f"**{util.prydwen_ratings[nikke_prydwen['ratings']['pvp']]}** ({(int(nikke_prydwen['ratings']['pvp']) / 11 * 10):.1f})", inline=True)
+
+        embed_nikkegg.set_thumbnail(url='https://www.prydwen.gg' + nikke_prydwen['smallImage']['localFile']['childImageSharp']['gatsbyImageData']['images']['fallback']['src'])
+        embed_prydwen.set_thumbnail(url='https://www.prydwen.gg' + nikke_prydwen['smallImage']['localFile']['childImageSharp']['gatsbyImageData']['images']['fallback']['src'])
+
+        embed_nikkegg.title = data_nikkegg['name']
+        embed_prydwen.title = nikke_prydwen['name']
+
+        nikkegg_upload = disnake.File(f'img\dbicons\\nikkegg.png', filename='nikkegg.png')
+        embed_nikkegg.set_author(name="Nikke.gg", icon_url='attachment://nikkegg.png')
+
+        prydwen_upload = disnake.File(f'img\dbicons\prydwen.png', filename='prydwen.png')
+        embed_prydwen.set_author(name="Prydwen Institute", icon_url='attachment://prydwen.png')
+
+        await itcn.send(embeds=[embed_nikkegg, embed_prydwen], files=[nikkegg_upload, prydwen_upload])
+
+    @tierlist.autocomplete("character")
+    def general_autocomplete(self, itcn: disnake.CommandInteraction, string: str):
+        string = string.lower()
+        if len(string) <= 0:
+            return []
+        return [char for char in self.charslugs['nikkegg'] + self.charslugs['prydwen'] if string in char.lower()]
 
 
 def setup(bot: cmds.Bot) -> None:

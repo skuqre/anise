@@ -63,17 +63,6 @@ class ExtraCommands(cmds.Cog):
         # this hand made filter picks some of those names and
         # changes them to ones prydwen would enjoy
         # i'm sure i forgot some
-        self.weirdfilter = {
-            'anis_s' : 'sparkling-summer-anis',
-            'helm_s' : 'aqua-marine-helm',
-            'neon_s' : 'blue-ocean-neon',
-            'mary_s' : 'bay-goddess-mary',
-            'marian_p' : 'modernia',
-            'rupee_w' : 'winter-shopper-rupee',
-            'anne' : "miracle-fairy-anne",
-            'snowwhite' : 'snow-white',
-            'hongreyon' : 'scarlet'
-        }
 
         self.aniseadvise = json.loads(open("data/loladvise.json", "r").read())
 
@@ -124,7 +113,7 @@ class ExtraCommands(cmds.Cog):
 
         vidid = pick['link'].removeprefix('https://youtu.be/').strip()
 
-        noembed_data = None
+        noembed_data = None 
         async with aiohttp.ClientSession() as session:
             data = await session.get(f'https://noembed.com/embed?url={pick["link"]}')
             noembed_data = await data.json(content_type=None)
@@ -156,7 +145,7 @@ class ExtraCommands(cmds.Cog):
         nikke = None
         if pick.get('nikke'):
             if pick['nikke'] != 'anise':
-                data = await self.request_nikke(pick['nikke'] if not (pick['nikke'] in self.weirdfilter) else self.weirdfilter[pick['nikke']])
+                data = await self.request_nikke(pick['nikke'] if not (pick['nikke'] in util.weirdfilter) else util.weirdfilter[pick['nikke']])
                 nikke = data['result']['data']['currentUnit']['nodes'][0]
                 embed.set_thumbnail(url='https://www.prydwen.gg' + nikke['smallImage']['localFile']['childImageSharp']['gatsbyImageData']['images']['fallback']['src'])
             else:
@@ -198,8 +187,13 @@ class ExtraCommands(cmds.Cog):
         text = """
         Anisé is currently an **invite-only** Discord bot.
         Servers with Anisé in it have express permissions
-        of from the owner of the server, or was just added in
-        by the bot's developer (<@317204000250265600>).
+        of from the owner of the server, or was just added
+        in by the bot's developer (<@317204000250265600>).
+
+        If you'd like an actual Anisé of your own, Anisé
+        is available on [GitHub](https://github.com/skuqre/anise)! You can host your own
+        instance of Anisé anytime you'd like. You
+        may also freely contribute; the code is a mess.
 
         Though, thank you for expressing your interest
         for Anisé in your servers!
