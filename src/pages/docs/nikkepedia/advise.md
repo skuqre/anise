@@ -20,5 +20,5 @@ It is recommended that you make your search less broad and more specific! Too br
 | Argument | Possible values | Description | Optional |
 | --- | --- | --- | --- |
 | query | any | Your search query. Don't make it too broad! | 🔴 |
-| character | any word (autocompleted) | Name of the character. The only thing different about this argument from the others, however, is that this has **autocomplete**. | 🟢 |
+| character | any word | Name of the character. **Has autocomplete**. | 🟢 |
 | update-cache | `True` or `False` | Update the local cache. If this command has not been ran once, this must be **True**. A warning will be issued at the terminal if this is the case. | 🟢 |

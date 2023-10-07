@@ -5,12 +5,11 @@ title: Getting Started
 
 # Getting Started
 
-When arguments are being presented, they are in a such a format: `<required>`, `[optional]`.
+- When arguments are being presented, they are in a such a format: `<required>`, `[optional]`.<br>**You do not literally type out `<`, `>`, `[`, or `]`.**
 
-**You do not literally type out `<`, `>`, `[`, or `]`.**
+- When working with a command's argument with an autocomplete, **I recommend you use the autocompleted argument instead of your own**. Commands will have a 100% chance of success with the autocompleted argument since the commands work based on it.<br>*It's absolute bullcrap, I know, but I had to work with sites that name the same characters differently to each other. With a terrible programmer like me, it's kinda hard to come up with a solution*
 
 ----
-
 
 This documentation is all the more unfinished, and the bot is in an **alpha** state, missing planned features and bugs all around it.
 
