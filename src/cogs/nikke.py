@@ -28,6 +28,7 @@ class NikkeCommands(cmds.Cog):
             "prydwen": [],
             "nikkegg": []
         }
+        self.charnames : dict[str, str] = {}
         self.init_charslugs();
         self.list_advisechars()
 
@@ -81,6 +82,7 @@ class NikkeCommands(cmds.Cog):
             f.write(to_save)
 
         self.list_advisechars()
+        self.init_charslugs();
     
     def init_charslugs(self):
         prydwen_r = requests.get("https://www.prydwen.gg/page-data/nikke/characters/page-data.json").json()
@@ -88,6 +90,7 @@ class NikkeCommands(cmds.Cog):
 
         for char in prydwen_chars:
             self.charslugs['prydwen'].append(char['slug'])
+            self.charnames[char['slug']] = char['name']
 
         nikkegg_r = requests.get("https://api.dotgg.gg/nikke/characters").json()
         for char in nikkegg_r:
@@ -355,8 +358,8 @@ class NikkeCommands(cmds.Cog):
         await itcn.response.defer(with_message=True)
 
         embed = util.quick_embed('', '')
-        embed.title = "Results"
-        embed.description = "+100 bond answers are marked with a :green_square:.\n+50 bond answers are marked with a :red_square:.\nResults with `Missing` may have their questions/answers include the character's name.\nSome Nikkes may have different names (e.g. Hongreyon for Scarlet) so be wary of your Nikke's lore!\n\n"
+        embed.title = "📝 Results"
+        embed.description = "+100 bond answers are marked with a 🟩.\n+50 bond answers are marked with a 🟥.\nResults with **Missing** may have their questions/answers include the character's name.\nSome Nikkes may have different names (e.g. Hongryeon for Scarlet) so be wary of your Nikke's lore!\n\n"
 
         data = None
         date = None
@@ -393,10 +396,19 @@ class NikkeCommands(cmds.Cog):
                 if not (character in k):
                     continue
 
+            name = k
+
+            if k != 'Monologue' and k != 'Missing':
+                name = self.charnames[(k if not (k in util.weirdfilter) else util.weirdfilter[k])]
+
             for v in v1:
-                embed.description += f"""**{k}**: {v[0]}
-                :green_square: `{v[1]}`
-                :red_square: `{v[2]}`
+                v[0] = v[0].replace('\n', ' ')
+                v[1] = v[1].replace('\n', ' ')
+                v[2] = v[2].replace('\n', ' ')
+
+                embed.description += f"""> **{name}**: _{v[0]}_
+                > 🟩 {v[1]}
+                > 🟥 {v[2]}
 
                 """
                 amount += 1
