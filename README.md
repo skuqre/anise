@@ -14,23 +14,11 @@ this bot also has support of slash commands.
 
 ## Why?
 it just helps me with playing NIKKE. nothing else<br>
-some other stuff (like `/shedidntsaythat`) are added out of fun
-<br><br>
-some examples of Anisé workin:
-<table>
-  <tr>
-    <td><img align='top' src="https://haxeflixel.is-terrible.com/64UPVND3d.png" /></td>
-  	<td><img align='left' src="https://haxeflixel.is-terrible.com/64UPseI21.png" /></td>
-  </tr>
-  <tr>
-  <td>
-  <img align='left' src="https://haxeflixel.is-terrible.com/6aFVhNJel.png" />
-  </td>
-  <td>
-  <img src="https://haxeflixel.is-terrible.com/64UP2GovE.png" />
-  </td>
-  </tr>
-</table>
+some other stuff (like `/shedidntsaythat`) are added out of fun.
+
+it is also opensourced just because I love opensource :)))
+
+*examples are in pending because I'm updating how her output looks*
 
 ## Made with
 - disnake
