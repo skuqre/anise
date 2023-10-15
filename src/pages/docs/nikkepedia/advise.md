@@ -9,7 +9,7 @@ title: /nikkepedia advise
 
 Search for advise answers through [nikke.gg](https://nikke.gg)'s advise list.
 
-> I myself hope that this is an easier way to look it up, as I just have an awful experience with that page; even the dotgg one is an awful experience, and the nikke.gg one is just one large table.
+> I myself hope that this is an easier way to look it up, as I just have an awful experience with that page; even the dotgg/nikke.gg one is an awful experience, and the nikke.gg one is just one large table.
 
 It is recommended that you make your search less broad and more specific! Too broad and the command will refrain from showing the results. Even so, results that are too broad *may* give you a harder time finding the question you want.
 
