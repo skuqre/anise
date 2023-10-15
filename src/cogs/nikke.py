@@ -447,7 +447,7 @@ class NikkeCommands(cmds.Cog):
         char_nikkegg = process.extractOne(character, self.charslugs['nikkegg'])[0]
         data_nikkegg = await self.request_nikke(char_nikkegg, nikke_gg=True)
 
-        embed_nikkegg.add_field(name="Combined", value=f"**{util.nikke_gg_ratings(data_nikkegg['tierlist']['Combined'])}** ({data_nikkegg['tierlist']['Combined']})", inline=False)
+        embed_nikkegg.add_field(name="Combined*", value=f"**{util.nikke_gg_ratings(data_nikkegg['tierlist']['Combined'])}** ({data_nikkegg['tierlist']['Combined']})", inline=False)
         embed_nikkegg.add_field(name="Story", value=f"**{util.nikke_gg_ratings(data_nikkegg['tierlist']['Story'])}** ({data_nikkegg['tierlist']['Story']})", inline=True)
         embed_nikkegg.add_field(name="Boss", value=f"**{util.nikke_gg_ratings(data_nikkegg['tierlist']['Boss'])}** ({data_nikkegg['tierlist']['Boss']})", inline=True)
         embed_nikkegg.add_field(name="PvP", value=f"**{util.nikke_gg_ratings(data_nikkegg['tierlist']['PvP'])}** ({data_nikkegg['tierlist']['PvP']})", inline=True)
@@ -474,6 +474,9 @@ class NikkeCommands(cmds.Cog):
 
         prydwen_upload = disnake.File(f'img\dbicons\prydwen.png', filename='prydwen.png')
         embed_prydwen.set_author(name="Prydwen Institute", icon_url='attachment://prydwen.png')
+
+        embed_nikkegg.set_footer(text='*may be rounded')
+        embed_prydwen.set_footer(text='There are no numerical ratings from Prydwen.')
 
         await itcn.send(embeds=[embed_nikkegg, embed_prydwen], files=[nikkegg_upload, prydwen_upload])
 

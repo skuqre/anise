@@ -5,8 +5,6 @@ can be called as "skuqred^3" since this is what it would be,<br>
 and I think I'm sick of my own name on my own projects.
 <br><br>
 
-<p align='center'><img src="https://haxeflixel.is-terrible.com/64_vvmh8d.png" /></p>
-
 
 ## What can Anisé do?
 as of current she can provide information about NIKKE characters.<br>
@@ -18,10 +16,28 @@ some other stuff (like `/shedidntsaythat`) are added out of fun.
 
 it is also opensourced just because I love opensource :)))
 
-*examples are in pending because I'm updating how her output looks*
+## Examples
+<table>
+  <tr>
+    <td>
+    <img src="https://haxeflixel.is-terrible.com/6gYlHwt3_.png" />
+    </td>
+    <td>
+    <img src="https://haxeflixel.is-terrible.com/6gYnczOvF.png" />
+    </td>
+  </tr>
+  <tr>
+    <td>
+    <img src="https://haxeflixel.is-terrible.com/6gYm5ye3S.png" />
+    </td>
+    <td>
+    <img src="https://haxeflixel.is-terrible.com/6gYocX1O6.png" />
+    </td>
+  </tr>
+</table>
 
 ## Made with
-- disnake
+- disnake (unstable version is being used)
 - discord.py ([see the Old branch!](https://github.com/skuqre/anise/tree/old))
 - <details><summary>my sanity</summary>
   discord.py is just about new to me<br>

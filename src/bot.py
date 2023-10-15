@@ -1,8 +1,7 @@
 import disnake
 import os
-from disnake.ext import commands
-from disnake.ext.commands import errors
-from disnake.interactions import ApplicationCommandInteraction
+from random import Random as Rnd
+from disnake.ext import tasks, commands
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -12,7 +11,14 @@ IS_DEBUG = os.getenv("is_debug", 'False') == 'True'
 
 class Anise(commands.InteractionBot):
     async def on_ready(self):
-        print(f"Hello chat. Logged on as {self.user}\n------")
+        print(f"\nLet's get this party started!\nLogged in as {self.user}\n")
+
+        await self.random_status_loop.start()
+
+    @tasks.loop(minutes=15.0)
+    async def random_status_loop(self):
+        statuses = open("data/status.txt", "r").read().strip().splitlines()
+        await self.change_presence(activity=disnake.CustomActivity(name=Rnd().choice(statuses)), status=disnake.Status.idle)
 
 
 def main():
