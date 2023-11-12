@@ -14,9 +14,9 @@ def format_skilldesc(desc: str):
     if ":" in desc:
         tor = "**" + tor.replace(":", "**:")
     elif desc.startswith('■'):
-        return tor
-    else:
         tor = "**" + tor + "**"
+    else:
+        tor = tor
     return tor
 
 
@@ -151,13 +151,18 @@ class NikkeCommands(cmds.Cog):
         """
         embed.add_field(name="Personal", value=personal.strip(), inline=True)
 
+        burst = util.emotes['burst' + nikke['burstType']]
+
+        if (character in util.any_burst_nikkes):
+            burst = util.emotes['burstA']
+
         # Combat
         combat = f"""
         **Rarity**: {util.emotes[nikke['rarity'].lower()]}
         **Class**: {nikke['class']}
         **Weapon**: {nikke['weapon']}
         **Element**: {nikke['element']}
-        **Burst Type**: {util.emotes['burst' + nikke['burstType']]}
+        **Burst Type**: {burst}
         """
         embed.add_field(name="Combat", value=combat.strip(), inline=True)
 
@@ -311,47 +316,52 @@ class NikkeCommands(cmds.Cog):
         await itcn.send(embeds=[embed, normal_embed, skill1_embed, skill2_embed, burst_embed], files=[sight_upload, skill1_upload, skill2_upload, burst_upload], ephemeral=only_to_you)
 
     @nikke.sub_command(name='image', description='Display NIKKE character images. 3 types included.')
-    async def image(self, itcn: disnake.CommandInteraction, character: str, type: str = cmds.Param(choices=["Head Bust", "Card Bust", "Full Body"], description="Image type to send.")):
+    async def image(self, itcn: disnake.CommandInteraction, character: str, type: str = cmds.Param(choices=["Head Bust", "Full Body"], description="Image type to send.")):
         await itcn.response.defer(with_message=True)
-        data = await self.request_nikke(character)
+        data_gg = await self.request_nikke(character, nikke_gg=True)
 
-        if data is None:
+        if data_gg is None:
             embed = util.quick_embed(
                 'Uh oh!', 'Huh, looks like an exception occurred. Try again?', 0xff3d33)
             await itcn.send(embed=embed)
             return
 
-        nikke = data['result']['data']['currentUnit']['nodes'][0]
-
         embed = util.quick_embed('', '')
-        embed.title = nikke['name']
+        embed.title = data_gg['name']
 
-        imageType = 'smallImage'
+        url = ''
 
         match type:
             case "Full Body":
-                imageType = 'fullImage'
+                url = 'https://static.dotgg.gg/nikke/characters/' + data_gg['imgBig'] + '.png'
                 embed.set_author(name="Full Body Image")
-            case "Card Bust":
-                imageType = 'cardImage'
-                embed.set_author(name="Card Bust Image")
+            # case "Card Bust":
+            #     url = 'https://www.prydwen.gg' + nikke['cardImage']['localFile']['childImageSharp']['gatsbyImageData']['images']['fallback']['src']
+                # embed.set_author(name="Card Bust Image")
             case "Head Bust":
-                imageType = 'smallImage'
+                url = 'https://static.dotgg.gg/nikke/characters/' + data_gg['img'] + '.png'
                 embed.set_author(name="Head Bust Image")
 
-        embed.set_image(url='https://www.prydwen.gg' +
-                        nikke[imageType]['localFile']['childImageSharp']['gatsbyImageData']['images']['fallback']['src'])
+        embed.set_image(url=url)
 
         await itcn.send(embed=embed)
 
     @info.autocomplete("character")
     @skills.autocomplete("character")
-    @image.autocomplete("character")
     def pryd_autocomplete(self, itcn: disnake.CommandInteraction, string: str):
         string = string.lower()
         if len(string) <= 0:
             return []
-        return [char for char in self.charslugs['prydwen'] if string in char.lower()]
+        results = [char for char in self.charslugs['prydwen'] if string in char.lower()]
+        return results if len(results) <= 25 else []
+    
+    @image.autocomplete("character")
+    def nkgg_autocomplete(self, itcn: disnake.CommandInteraction, string: str):
+        string = string.lower()
+        if len(string) <= 0:
+            return []
+        results = [char for char in self.charslugs['nikkegg'] if string in char.lower()]
+        return results if len(results) <= 25 else []
 
     @nikke.sub_command(name='advise', description='Advise search. Character is optional.')
     async def advise(self, itcn: disnake.CommandInteraction, query: str, character: str = None, update_cache: bool = False):
@@ -433,7 +443,8 @@ class NikkeCommands(cmds.Cog):
         string = string.lower()
         if len(string) <= 0:
             return []
-        return [char for char in self.advisechars if string in char.lower()]
+        results = [char for char in self.advisechars if string in char.lower()]
+        return results if len(results) <= 25 else []
     
     # Worst code ever?
     # Kill yourself?
@@ -485,7 +496,9 @@ class NikkeCommands(cmds.Cog):
         string = string.lower()
         if len(string) <= 0:
             return []
-        return [char for char in self.charslugs['nikkegg'] + self.charslugs['prydwen'] if string in char.lower()]
+        
+        results = [char for char in self.charslugs['nikkegg'] + self.charslugs['prydwen'] if string in char.lower()]
+        return results if len(results) <= 25 else []
 
 
 def setup(bot: cmds.Bot) -> None:
