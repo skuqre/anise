@@ -26,7 +26,9 @@ weirdfilter = {
     'rupee_w': 'winter-shopper-rupee',
     'anne': "miracle-fairy-anne",
     'snowwhite': 'snow-white',
-    'hongryeon': 'scarlet'
+    'hongryeon': 'scarlet',
+    'redhood': 'red-hood',
+    'snowwhite_o': 'innocent-dayss-snow-white'
 }
 
 prydwen_ratings = {

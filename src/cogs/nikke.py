@@ -369,7 +369,7 @@ class NikkeCommands(cmds.Cog):
 
         embed = util.quick_embed('', '')
         embed.title = "📝 Results"
-        embed.description = "+100 bond answers are marked with a 🟩.\n+50 bond answers are marked with a 🟥.\nResults with **Missing** may have their questions/answers include the character's name.\nSome Nikkes may have different names (e.g. Hongryeon for Scarlet) so be wary of your Nikke's lore!\n\n"
+        embed.description = "+100 bond answers are marked with a 🟩.\n+50 bond answers are marked with a 🟥.\nResults with **Missing** may have their questions/answers include the character's name.\n\n"
 
         data = None
         date = None
@@ -383,12 +383,16 @@ class NikkeCommands(cmds.Cog):
             date = huh.get('anise_LastUpdate')
 
         results = {}
+        insanity = ['Self', 'Narration'] # it JUST gets worse, what the fuck???
 
         for item in data:
             to = 'Missing'
 
             if item.get('nikke'):
                 to = item['nikke']
+                
+                if to in insanity:
+                    to = 'Monologue'
 
             if results.get(to) is None:
                 results[to] = []
