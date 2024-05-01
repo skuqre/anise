@@ -1,3 +1,5 @@
+# Anisé has now been archived permanently.<br>Anisé is being rewritten in Discord.JS! She will come soon on the [NIKKE Community Discord](https://discord.gg/nikke)!<br>The parsing functions of this bot may be errorneous due to various changes from the data sources the bot uses.
+
 <p align='center'><img src="https://cdn.discordapp.com/avatars/1114377691257393213/421d8f88511e13f331c975443eb4b79b.png" /></p>
 
 <h1 align='center'>Anisé, a Discord Bot!</h1>
